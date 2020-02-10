@@ -28,20 +28,30 @@ def sol(c) :
 
     for i in range(len(c)+1):
         temp.extend(combinations(c, i))
+
     for t in temp :
+        back_list = []
         for target in c :
             tmp = [0]*W
             for i in range(W):
-                tmp[i]= map_arr[target][i]
-            if target in t :# 행 1로
+                tmp[i] = map_arr[target][i]
+            back_list.append(tmp)
+
+            if target in t :
                 map_arr[target] = [1]*W
-            else : # 행0으로
-                map_arr[target]=[0]*W
+            else :
+                map_arr[target] = [0]*W
         if check_pass() :
             return 1
+        index =0
+        for target in c :
+            for w in range(W):
+                map_arr[target][w] = back_list[index][w]
+            index+=1
 
-        for index in swap_list:
-            map_arr[index[0]][index[1]] = swap(map_arr[index[0]][index[1]])
+
+
+
 
         #t 마다 바꿨다가 원상복구 필요
 
@@ -61,7 +71,7 @@ for t in range(T):
         print('#' + str(t + 1) + ' ' + str(0))
         continue;
     flag =0
-    start = time.time()
+
     for i in range(1, K+1) :
 
         list_c = list(combinations(range(D),i))
@@ -72,4 +82,3 @@ for t in range(T):
         if flag ==1 :
             print('#'+str(t+1)+' ' +str(i))
             break;
-    print(start - time.time())
